@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"math"
+	"reflect"
 	"strconv"
 
 	"github.com/jackc/pgx/pgio"
@@ -74,7 +75,8 @@ func (dst *Int4) Set(src interface{}) error {
 		if originalSrc, ok := underlyingNumberType(src); ok {
 			return dst.Set(originalSrc)
 		}
-		return errors.Errorf("fork: cannot convert %+v to Int4, (%+v)", value, src)
+		refVal := reflect.ValueOf(src)
+		return errors.Errorf("fork: cannot convert %+v to Int4, reflection type : %s", value, refVal.String())
 	}
 
 	return nil
