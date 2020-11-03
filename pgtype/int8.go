@@ -61,6 +61,16 @@ func (dst *Int8) Set(src interface{}) error {
 			return err
 		}
 		*dst = Int8{Int: num, Status: Present}
+	case float32:
+		if value > math.MaxInt64 {
+			return errors.Errorf("%d is greater than maximum value for Int8", value)
+		}
+		*dst = Int8{Int: int64(value), Status: Present}
+	case float64:
+		if value > math.MaxInt64 {
+			return errors.Errorf("%d is greater than maximum value for Int8", value)
+		}
+		*dst = Int8{Int: int64(value), Status: Present}
 	default:
 		if originalSrc, ok := underlyingNumberType(src); ok {
 			return dst.Set(originalSrc)
