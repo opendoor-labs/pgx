@@ -65,6 +65,16 @@ func (dst *Int4) Set(src interface{}) error {
 			return errors.Errorf("%d is greater than maximum value for Int4", value)
 		}
 		*dst = Int4{Int: int32(value), Status: Present}
+	case float32:
+		if value > math.MaxInt32 {
+			return errors.Errorf("%d is greater than maximum value for Int4", value)
+		}
+		*dst = Int4{Int: int32(value), Status: Present}
+	case float64:
+		if value > math.MaxInt32 {
+			return errors.Errorf("%d is greater than maximum value for Int4", value)
+		}
+		*dst = Int4{Int: int32(value), Status: Present}
 	case string:
 		num, err := strconv.ParseInt(value, 10, 32)
 		if err != nil {
@@ -76,7 +86,7 @@ func (dst *Int4) Set(src interface{}) error {
 			return dst.Set(originalSrc)
 		}
 		refVal := reflect.ValueOf(src)
-		return errors.Errorf("fork: cannot convert %+v to Int4, reflection type : %s", value, refVal.String())
+		return errors.Errorf("cannot convert %+v to Int4, reflection type : %s", value, refVal.String())
 	}
 
 	return nil
