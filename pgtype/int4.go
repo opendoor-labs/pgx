@@ -74,7 +74,7 @@ func (dst *Int4) Set(src interface{}) error {
 		if originalSrc, ok := underlyingNumberType(src); ok {
 			return dst.Set(originalSrc)
 		}
-		return errors.Errorf("cannot convert %v to Int4", value)
+		return errors.Errorf("fork: cannot convert %+v to Int4, (%+v)", value, src)
 	}
 
 	return nil
